@@ -1,701 +1,1257 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="Train">
-<title>Training Plan</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Bebas+Neue&display=swap" rel="stylesheet">
-<style>
-  :root { --c: #2563EB; }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  html, body { background: #080808 !important; }
-  body { color: #E2E2E2; font-family: 'DM Mono', 'Courier New', monospace; min-height: 100vh; min-height: 100dvh; overscroll-behavior: none; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Train">
+  <title>Training Plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Bebas+Neue&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --c: #2563EB;
+    }
 
-  #header { padding: 52px 16px 0; }
-  #header h1 { font-family: 'Bebas Neue', Impact, sans-serif; font-size: 26px; letter-spacing: 0.07em; line-height: 1; font-weight: 400; }
-  #header p { font-size: 10px; color: #2C2C2C; margin-top: 3px; letter-spacing: 0.14em; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-  /* Week toggle */
-  #week-toggle { display: flex; margin: 16px 14px 0; background: #111; border-radius: 8px; padding: 3px; border: 1px solid #1C1C1C; }
-  .week-btn { flex: 1; padding: 8px; border: none; border-radius: 6px; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; cursor: pointer; background: none; color: #444; transition: all 0.2s; }
-  .week-btn.active { background: #1A1A1A; color: #E2E2E2; }
-  .week-tag { font-size: 8px; display: block; margin-top: 2px; opacity: 0.6; letter-spacing: 0.08em; }
+    html,
+    body {
+      background: #080808 !important;
+    }
 
-  /* Tabs */
-  #tabs { display: flex; padding: 14px 4px 0; border-bottom: 1px solid #131313; margin-top: 14px; }
-  .tab { flex: 1; padding: 10px 2px 8px; background: none; border: none; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.08em; cursor: pointer; color: #444; transition: color 0.2s; }
-  .tab.active { color: #E2E2E2; }
-  .tab-pip { width: 24px; height: 2px; border-radius: 1px; margin: 5px auto 0; transition: background 0.3s; }
+    body {
+      color: #E2E2E2;
+      font-family: 'DM Mono', 'Courier New', monospace;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overscroll-behavior: none;
+    }
 
-  #content { padding: 18px 14px 160px; }
+    #header {
+      padding: 52px 16px 0;
+    }
 
-  .day-hdr { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
-  .day-title { font-family: 'Bebas Neue', Impact, sans-serif; font-size: 40px; color: var(--c); line-height: 1; letter-spacing: 0.04em; font-weight: 400; }
-  .day-subtitle { font-size: 13px; color: var(--c); opacity: 0.7; font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.06em; margin-top: 1px; }
-  .day-tag { font-size: 11px; color: #333; margin-top: 3px; letter-spacing: 0.07em; }
+    #header h1 {
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 26px;
+      letter-spacing: 0.07em;
+      line-height: 1;
+      font-weight: 400;
+    }
 
-  .prog-wrap { margin-bottom: 18px; }
-  .prog-meta { display: flex; justify-content: space-between; margin-bottom: 5px; }
-  .prog-lbl { font-size: 10px; color: #2E2E2E; letter-spacing: 0.1em; }
-  .prog-num { font-size: 10px; letter-spacing: 0.06em; }
-  .prog-track { height: 2px; background: #151515; border-radius: 1px; overflow: hidden; }
-  .prog-fill { height: 100%; border-radius: 1px; transition: width 0.35s ease; }
+    #header p {
+      font-size: 11px;
+      color: #666;
+      margin-top: 3px;
+      letter-spacing: 0.14em;
+    }
 
-  .reset-btn { background: none; border: 1px solid #1E1E1E; border-radius: 6px; color: #383838; font-family: 'DM Mono', monospace; font-size: 10px; padding: 5px 11px; cursor: pointer; letter-spacing: 0.08em; }
-  .reset-btn:active { color: #777; }
+    /* Week toggle */
+    #week-toggle {
+      display: flex;
+      margin: 16px 14px 0;
+      background: #141414;
+      border-radius: 8px;
+      padding: 3px;
+      border: 1px solid #242424;
+    }
 
-  .slabel { font-size: 9.5px; letter-spacing: 0.18em; color: #2E2E2E; text-transform: uppercase; margin-bottom: 10px; }
+    .week-btn {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 6px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      background: none;
+      color: #777;
+      transition: all 0.2s;
+    }
 
-  /* Section header with color accent */
-  .section-hdr { display: flex; align-items: center; gap: 8px; margin: 20px 0 10px; }
-  .section-hdr .slabel { margin-bottom: 0; }
-  .section-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--c); opacity: 0.5; flex-shrink: 0; }
+    .week-btn.active {
+      background: #222;
+      color: #F0F0F0;
+    }
 
-  .lift-card { background: #111; border-radius: 10px; padding: 14px 14px 12px; margin-bottom: 8px; border: 1px solid #1C1C1C; transition: all 0.25s; }
-  .lift-card.complete { border-color: #161616; background: #0C0C0C; }
-  .lift-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-  .lift-name { font-size: 14px; font-weight: 400; color: #E2E2E2; letter-spacing: 0.02em; line-height: 1.3; transition: color 0.25s; }
-  .lift-card.complete .lift-name { color: #272727; }
-  .lift-note { font-size: 10px; color: #2E2E2E; margin-top: 3px; font-style: italic; line-height: 1.5; }
-  .lift-card.complete .lift-note { color: #1A1A1A; }
-  .reps-badge { font-size: 10px; color: #3A3A3A; background: #161616; border-radius: 4px; padding: 3px 7px; white-space: nowrap; flex-shrink: 0; margin-left: 8px; transition: all 0.25s; }
-  .lift-card.complete .reps-badge { color: #1E1E1E; background: #0F0F0F; }
+    .week-tag {
+      font-size: 9px;
+      display: block;
+      margin-top: 2px;
+      opacity: 0.8;
+      letter-spacing: 0.08em;
+    }
 
-  .sets-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-  .set-bubble { width: 42px; height: 42px; border-radius: 50%; border: 1.5px solid #232323; background: none; display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 12px; color: #3A3A3A; cursor: pointer; transition: all 0.15s; flex-shrink: 0; -webkit-user-select: none; user-select: none; }
-  .set-bubble:active { transform: scale(0.84); }
-  .set-bubble.done { border-color: var(--c); background: var(--c); color: #fff; font-weight: 500; }
-  .set-bubble.next { border-color: var(--c); color: var(--c); }
-  .sets-status { font-size: 10px; color: #2A2A2A; letter-spacing: 0.08em; margin-left: 2px; }
-  .sets-status.going { color: var(--c); }
+    /* Tabs */
+    #tabs {
+      display: flex;
+      padding: 14px 4px 0;
+      border-bottom: 1px solid #1E1E1E;
+      margin-top: 14px;
+    }
 
-  .weight-row { display: flex; align-items: center; gap: 8px; margin-top: 11px; padding-top: 11px; border-top: 1px solid #161616; }
-  .weight-input { background: #0E0E0E; border: 1px solid #1E1E1E; border-radius: 6px; color: #888; font-family: 'DM Mono', monospace; font-size: 12px; padding: 6px 10px; width: 90px; outline: none; -webkit-appearance: none; appearance: none; }
-  .weight-input:focus { border-color: var(--c); color: #E2E2E2; }
-  .weight-input::placeholder { color: #2E2E2E; }
-  .weight-label { font-size: 10px; color: #2A2A2A; letter-spacing: 0.08em; }
+    .tab {
+      flex: 1;
+      padding: 10px 2px 8px;
+      background: none;
+      border: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      color: #666;
+      transition: color 0.2s;
+    }
 
-  .check-row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: #0E0E0E; border-radius: 8px; margin-bottom: 6px; border: 1px solid #181818; cursor: pointer; }
-  .check-row:active { opacity: 0.7; }
-  .check-circle { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid #252525; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s; }
-  .check-circle.done { border-color: var(--c); background: var(--c); }
-  .check-text { font-size: 13px; color: #777; transition: all 0.15s; line-height: 1.4; }
-  .check-text.done { color: #272727; text-decoration: line-through; }
-  .check-sub { font-size: 10px; color: #333; font-style: italic; margin-top: 2px; }
+    .tab.active {
+      color: #F0F0F0;
+    }
 
-  .mobility-card { background: #0E0E0E; border-radius: 10px; padding: 14px; border: 1px solid #181818; margin-bottom: 8px; }
-  .mobility-title { font-size: 13px; color: #666; margin-bottom: 4px; }
-  .mobility-note { font-size: 10px; color: #2E2E2E; font-style: italic; }
+    .tab-pip {
+      width: 24px;
+      height: 2px;
+      border-radius: 1px;
+      margin: 5px auto 0;
+      transition: background 0.3s;
+    }
 
-  .done-banner { border-radius: 10px; padding: 20px 16px; text-align: center; margin-bottom: 16px; animation: pop 0.35s ease; }
-  .done-banner h2 { font-family: 'Bebas Neue', Impact, sans-serif; font-size: 30px; color: var(--c); letter-spacing: 0.08em; font-weight: 400; }
-  .done-banner p { font-size: 11px; color: #444; margin-top: 4px; }
-  @keyframes pop { from { opacity: 0; transform: scale(0.97) translateY(6px); } to { opacity: 1; transform: none; } }
+    #content {
+      padding: 18px 14px 160px;
+    }
 
-  .info-box { font-size: 12px; color: #444; padding: 12px; background: #0E0E0E; border-radius: 8px; border: 1px solid #141414; line-height: 1.9; }
-  .tip-box { font-size: 11px; color: #3A3A3A; padding: 10px 12px; background: #0A0A0A; border-radius: 6px; border-left: 2px solid var(--c); margin-bottom: 16px; line-height: 1.6; opacity: 0.8; }
+    .day-hdr {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
 
-  /* Timer */
-  #timer-panel { position: fixed; bottom: 0; left: 0; right: 0; background: #0F0F0F; border-top: 1px solid #1E1E1E; padding: 16px 20px calc(16px + env(safe-area-inset-bottom)); transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1); z-index: 100; }
-  #timer-panel.visible { transform: translateY(0); }
-  #timer-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-  #timer-label { font-size: 9.5px; letter-spacing: 0.18em; color: #333; text-transform: uppercase; }
-  #timer-dismiss { background: none; border: none; color: #333; font-size: 18px; cursor: pointer; padding: 0 4px; line-height: 1; }
-  #timer-main { display: flex; align-items: center; gap: 16px; }
-  #timer-arc-wrap { position: relative; width: 64px; height: 64px; flex-shrink: 0; }
-  #timer-arc-wrap svg { position: absolute; top: 0; left: 0; transform: rotate(-90deg); }
-  #timer-arc-bg { fill: none; stroke: #1A1A1A; stroke-width: 3; }
-  #timer-arc-fill { fill: none; stroke: var(--c); stroke-width: 3; stroke-linecap: round; transition: stroke-dashoffset 0.9s linear; }
-  #timer-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', Impact, sans-serif; font-size: 22px; letter-spacing: 0.04em; color: #E2E2E2; font-weight: 400; }
-  #timer-right { flex: 1; }
-  #timer-lift-name { font-size: 12px; color: #555; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  #timer-presets { display: flex; gap: 6px; }
-  .timer-preset { flex: 1; padding: 7px 4px; background: #161616; border: 1px solid #222; border-radius: 6px; font-family: 'DM Mono', monospace; font-size: 11px; color: #444; cursor: pointer; text-align: center; letter-spacing: 0.04em; transition: all 0.15s; }
-  .timer-preset:active { background: #1E1E1E; color: #888; }
-  .timer-preset.active-preset { border-color: var(--c); color: var(--c); }
-  #timer-track { height: 2px; background: #161616; border-radius: 1px; overflow: hidden; margin-top: 14px; }
-  #timer-track-fill { height: 100%; background: var(--c); border-radius: 1px; transition: width 0.9s linear; }
-</style>
+    .day-title {
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 40px;
+      color: var(--c);
+      line-height: 1;
+      letter-spacing: 0.04em;
+      font-weight: 400;
+    }
+
+    .day-subtitle {
+      font-size: 13px;
+      color: var(--c);
+      opacity: 0.85;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.06em;
+      margin-top: 1px;
+    }
+
+    .day-tag {
+      font-size: 12px;
+      color: #777;
+      margin-top: 3px;
+      letter-spacing: 0.05em;
+    }
+
+    .prog-wrap {
+      margin-bottom: 18px;
+    }
+
+    .prog-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
+    .prog-lbl {
+      font-size: 11px;
+      color: #666;
+      letter-spacing: 0.1em;
+    }
+
+    .prog-num {
+      font-size: 11px;
+      letter-spacing: 0.06em;
+    }
+
+    .prog-track {
+      height: 3px;
+      background: #222;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .prog-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.35s ease;
+    }
+
+    .reset-btn {
+      background: none;
+      border: 1px solid #333;
+      border-radius: 6px;
+      color: #777;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      padding: 6px 12px;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+    }
+
+    .reset-btn:active {
+      color: #AAA;
+    }
+
+    .slabel {
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      color: #777;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    /* Section header with color accent */
+    .section-hdr {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 20px 0 10px;
+    }
+
+    .section-hdr .slabel {
+      margin-bottom: 0;
+    }
+
+    .section-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--c);
+      opacity: 0.7;
+      flex-shrink: 0;
+    }
+
+    .lift-card {
+      background: #141414;
+      border-radius: 10px;
+      padding: 14px 14px 12px;
+      margin-bottom: 8px;
+      border: 1px solid #222;
+      transition: all 0.25s;
+    }
+
+    .lift-card.complete {
+      border-color: #1A1A1A;
+      background: #0E0E0E;
+    }
+
+    .lift-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .lift-name {
+      font-size: 15px;
+      font-weight: 400;
+      color: #F0F0F0;
+      letter-spacing: 0.02em;
+      line-height: 1.3;
+      transition: color 0.25s;
+    }
+
+    .lift-card.complete .lift-name {
+      color: #333;
+    }
+
+    .lift-note {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    .lift-card.complete .lift-note {
+      color: #2A2A2A;
+    }
+
+    .reps-badge {
+      font-size: 11px;
+      color: #AAA;
+      background: #1E1E1E;
+      border-radius: 4px;
+      padding: 4px 8px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-left: 8px;
+      transition: all 0.25s;
+      border: 1px solid #2A2A2A;
+    }
+
+    .lift-card.complete .reps-badge {
+      color: #2A2A2A;
+      background: #111;
+      border-color: #1A1A1A;
+    }
+
+    .sets-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .set-bubble {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1.5px solid #333;
+      background: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: #777;
+      cursor: pointer;
+      transition: all 0.15s;
+      flex-shrink: 0;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .set-bubble:active {
+      transform: scale(0.84);
+    }
+
+    .set-bubble.done {
+      border-color: var(--c);
+      background: var(--c);
+      color: #fff;
+      font-weight: 500;
+    }
+
+    .set-bubble.next {
+      border-color: var(--c);
+      color: var(--c);
+    }
+
+    .sets-status {
+      font-size: 11px;
+      color: #555;
+      letter-spacing: 0.08em;
+      margin-left: 2px;
+    }
+
+    .sets-status.going {
+      color: var(--c);
+    }
+
+    .weight-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 11px;
+      padding-top: 11px;
+      border-top: 1px solid #1E1E1E;
+    }
+
+    .weight-input {
+      background: #111;
+      border: 1px solid #2A2A2A;
+      border-radius: 6px;
+      color: #AAA;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      padding: 7px 10px;
+      width: 100px;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .weight-input:focus {
+      border-color: var(--c);
+      color: #F0F0F0;
+    }
+
+    .weight-input::placeholder {
+      color: #444;
+    }
+
+    .weight-label {
+      font-size: 11px;
+      color: #666;
+      letter-spacing: 0.08em;
+    }
+
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 14px;
+      background: #121212;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      border: 1px solid #222;
+      cursor: pointer;
+    }
+
+    .check-row:active {
+      opacity: 0.7;
+    }
+
+    .check-circle {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1.5px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.15s;
+    }
+
+    .check-circle.done {
+      border-color: var(--c);
+      background: var(--c);
+    }
+
+    .check-text {
+      font-size: 14px;
+      color: #CCC;
+      transition: all 0.15s;
+      line-height: 1.4;
+    }
+
+    .check-text.done {
+      color: #333;
+      text-decoration: line-through;
+    }
+
+    .check-sub {
+      font-size: 12px;
+      color: #777;
+      font-style: italic;
+      margin-top: 3px;
+      line-height: 1.5;
+    }
+
+    .mobility-card {
+      background: #121212;
+      border-radius: 10px;
+      padding: 14px;
+      border: 1px solid #222;
+      margin-bottom: 8px;
+    }
+
+    .mobility-title {
+      font-size: 14px;
+      color: #AAA;
+      margin-bottom: 4px;
+    }
+
+    .mobility-note {
+      font-size: 12px;
+      color: #666;
+      font-style: italic;
+    }
+
+    .done-banner {
+      border-radius: 10px;
+      padding: 20px 16px;
+      text-align: center;
+      margin-bottom: 16px;
+      animation: pop 0.35s ease;
+    }
+
+    .done-banner h2 {
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 30px;
+      color: var(--c);
+      letter-spacing: 0.08em;
+      font-weight: 400;
+    }
+
+    .done-banner p {
+      font-size: 13px;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    @keyframes pop {
+      from {
+        opacity: 0;
+        transform: scale(0.97) translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .info-box {
+      font-size: 13px;
+      color: #888;
+      padding: 12px;
+      background: #111;
+      border-radius: 8px;
+      border: 1px solid #1E1E1E;
+      line-height: 1.9;
+    }
+
+    .tip-box {
+      font-size: 12px;
+      color: #999;
+      padding: 12px 14px;
+      background: #111;
+      border-radius: 6px;
+      border-left: 3px solid var(--c);
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+
+    /* Timer */
+    #timer-panel {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #111;
+      border-top: 1px solid #222;
+      padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+      z-index: 100;
+    }
+
+    #timer-panel.visible {
+      transform: translateY(0);
+    }
+
+    #timer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    #timer-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: #777;
+      text-transform: uppercase;
+    }
+
+    #timer-dismiss {
+      background: none;
+      border: none;
+      color: #777;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0 4px;
+      line-height: 1;
+    }
+
+    #timer-main {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    #timer-arc-wrap {
+      position: relative;
+      width: 64px;
+      height: 64px;
+      flex-shrink: 0;
+    }
+
+    #timer-arc-wrap svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: rotate(-90deg);
+    }
+
+    #timer-arc-bg {
+      fill: none;
+      stroke: #222;
+      stroke-width: 3;
+    }
+
+    #timer-arc-fill {
+      fill: none;
+      stroke: var(--c);
+      stroke-width: 3;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.9s linear;
+    }
+
+    #timer-num {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', Impact, sans-serif;
+      font-size: 22px;
+      letter-spacing: 0.04em;
+      color: #F0F0F0;
+      font-weight: 400;
+    }
+
+    #timer-right {
+      flex: 1;
+    }
+
+    #timer-lift-name {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    #timer-presets {
+      display: flex;
+      gap: 6px;
+    }
+
+    .timer-preset {
+      flex: 1;
+      padding: 8px 4px;
+      background: #1A1A1A;
+      border: 1px solid #2A2A2A;
+      border-radius: 6px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: #777;
+      cursor: pointer;
+      text-align: center;
+      letter-spacing: 0.04em;
+      transition: all 0.15s;
+    }
+
+    .timer-preset:active {
+      background: #222;
+      color: #AAA;
+    }
+
+    .timer-preset.active-preset {
+      border-color: var(--c);
+      color: var(--c);
+    }
+
+    #timer-track {
+      height: 2px;
+      background: #1E1E1E;
+      border-radius: 1px;
+      overflow: hidden;
+      margin-top: 14px;
+    }
+
+    #timer-track-fill {
+      height: 100%;
+      background: var(--c);
+      border-radius: 1px;
+      transition: width 0.9s linear;
+    }
+  </style>
 </head>
-<body>
-<div id="app">
-  <div id="header">
-    <h1>TRAINING PLAN</h1>
-    <p>5-DAY · 2-WEEK ALTERNATING</p>
-  </div>
-  <div id="week-toggle">
-    <button class="week-btn active" onclick="switchWeek(0)">
-      WEEK A
-      <span class="week-tag">FUNCTIONAL</span>
-    </button>
-    <button class="week-btn" onclick="switchWeek(1)">
-      WEEK B
-      <span class="week-tag">STRENGTH</span>
-    </button>
-  </div>
-  <div id="tabs"></div>
-  <div id="content"></div>
-</div>
 
-<div id="timer-panel">
-  <div id="timer-top">
-    <span id="timer-label">REST</span>
-    <button id="timer-dismiss" onclick="dismissTimer()">✕</button>
-  </div>
-  <div id="timer-main">
-    <div id="timer-arc-wrap">
-      <svg width="64" height="64" viewBox="0 0 64 64">
-        <circle id="timer-arc-bg" cx="32" cy="32" r="28"/>
-        <circle id="timer-arc-fill" cx="32" cy="32" r="28"/>
-      </svg>
-      <div id="timer-num">1:30</div>
+<body>
+  <div id="app">
+    <div id="header">
+      <h1>TRAINING PLAN</h1>
+      <p>5-DAY · 2-WEEK ALTERNATING</p>
     </div>
-    <div id="timer-right">
-      <div id="timer-lift-name">—</div>
-      <div id="timer-presets">
-        <button class="timer-preset" onclick="setTimer(60)">60s</button>
-        <button class="timer-preset active-preset" onclick="setTimer(90)">90s</button>
-        <button class="timer-preset" onclick="setTimer(120)">2m</button>
+    <div id="week-toggle">
+      <button class="week-btn active" onclick="switchWeek(0)">
+        WEEK A
+        <span class="week-tag">FUNCTIONAL</span>
+      </button>
+      <button class="week-btn" onclick="switchWeek(1)">
+        WEEK B
+        <span class="week-tag">STRENGTH</span>
+      </button>
+    </div>
+    <div id="tabs"></div>
+    <div id="content"></div>
+  </div>
+
+  <div id="timer-panel">
+    <div id="timer-top">
+      <span id="timer-label">REST</span>
+      <button id="timer-dismiss" onclick="dismissTimer()">✕</button>
+    </div>
+    <div id="timer-main">
+      <div id="timer-arc-wrap">
+        <svg width="64" height="64" viewBox="0 0 64 64">
+          <circle id="timer-arc-bg" cx="32" cy="32" r="28" />
+          <circle id="timer-arc-fill" cx="32" cy="32" r="28" />
+        </svg>
+        <div id="timer-num">1:30</div>
+      </div>
+      <div id="timer-right">
+        <div id="timer-lift-name">—</div>
+        <div id="timer-presets">
+          <button class="timer-preset" onclick="setTimer(60)">60s</button>
+          <button class="timer-preset active-preset" onclick="setTimer(90)">90s</button>
+          <button class="timer-preset" onclick="setTimer(120)">2m</button>
+        </div>
       </div>
     </div>
+    <div id="timer-track">
+      <div id="timer-track-fill" style="width:100%"></div>
+    </div>
   </div>
-  <div id="timer-track"><div id="timer-track-fill" style="width:100%"></div></div>
-</div>
 
-<script>
-const WEEKS = [
-  // ── WEEK A: FUNCTIONAL ──────────────────────────────────────────────────
-  {
-    label: "A", name: "Functional", color: "#2563EB",
-    days: [
+  <script>
+    const WEEKS = [
+      // ── WEEK A: FUNCTIONAL ──────────────────────────────────────────────────
       {
-        id: "a0", label: "MON", name: "Full Body", sub: "Movement & Power",
-        tag: "KB Swings · Hinge · Carry", duration: "~55 min",
-        tip: "Focus on hip hinge mechanics today — every rep should feel like you're loading a spring, not squatting down.",
-        sections: [
+        label: "A", name: "Functional", color: "#2563EB",
+        days: [
           {
-            title: "WARMUP — 8 MIN",
-            type: "checklist",
-            items: [
-              { id: "w1", name: "Hip circles", note: "10 each direction", sets: 0 },
-              { id: "w2", name: "Thoracic rotations", note: "10 each side, on all fours", sets: 0 },
-              { id: "w3", name: "Glute bridges", note: "15 reps, hold top for 2 sec", sets: 0 },
-              { id: "w4", name: "Dead bug", note: "6 each side, slow and controlled", sets: 0 },
+            id: "a0", label: "MON", name: "Full Body", sub: "Movement & Power",
+            tag: "KB Swings · Hinge · Carry", duration: "~55 min",
+            tip: "Focus on hip hinge mechanics today — every rep should feel like you're loading a spring, not squatting down.",
+            sections: [
+              {
+                title: "WARMUP — 8 MIN",
+                type: "checklist",
+                items: [
+                  { id: "w1", name: "Hip circles", note: "10 each direction", sets: 0 },
+                  { id: "w2", name: "Thoracic rotations", note: "10 each side, on all fours", sets: 0 },
+                  { id: "w3", name: "Glute bridges", note: "15 reps, hold top for 2 sec", sets: 0 },
+                  { id: "w4", name: "Dead bug", note: "6 each side, slow and controlled", sets: 0 },
+                ]
+              },
+              {
+                title: "MAIN WORK",
+                type: "lifts",
+                items: [
+                  { id: "m1", name: "KB Deadlift", note: "Drive floor away, squeeze glutes at top", sets: 4, reps: "10–12" },
+                  { id: "m2", name: "KB Swing", note: "Hip drive — not a squat. Hike ball back, snap hips", sets: 4, reps: "12–15" },
+                  { id: "m3", name: "Goblet Squat", note: "Hold KB at chest, sit tall, elbows inside knees", sets: 3, reps: "10–12" },
+                  { id: "m4", name: "Single Arm KB Row", note: "Brace core, pull to hip not shoulder", sets: 3, reps: "10 each" },
+                  { id: "m5", name: "Push-Ups", note: "Hands slightly wider than shoulder, full range", sets: 3, reps: "10–15" },
+                ]
+              },
+              {
+                title: "CARRIES & CORE — 10 MIN",
+                type: "checklist",
+                items: [
+                  { id: "c1", name: "Farmer Carry", note: "2 KBs, walk 30–40m, stand tall, brace core", sets: 0 },
+                  { id: "c2", name: "Suitcase Carry", note: "1 KB at side, resist leaning — 3 sets each side", sets: 0 },
+                  { id: "c3", name: "Plank", note: "3 x 30–45 sec, squeeze everything", sets: 0 },
+                ]
+              }
             ]
           },
           {
-            title: "MAIN WORK",
-            type: "lifts",
-            items: [
-              { id: "m1", name: "KB Deadlift", note: "Drive floor away, squeeze glutes at top", sets: 4, reps: "10–12" },
-              { id: "m2", name: "KB Swing", note: "Hip drive — not a squat. Hike ball back, snap hips", sets: 4, reps: "12–15" },
-              { id: "m3", name: "Goblet Squat", note: "Hold KB at chest, sit tall, elbows inside knees", sets: 3, reps: "10–12" },
-              { id: "m4", name: "Single Arm KB Row", note: "Brace core, pull to hip not shoulder", sets: 3, reps: "10 each" },
-              { id: "m5", name: "Push-Ups", note: "Hands slightly wider than shoulder, full range", sets: 3, reps: "10–15" },
+            id: "a1", label: "TUE", name: "Upper", sub: "Pull Focus + Shoulder Health",
+            tag: "Rows · Face Pulls · Get-Up", duration: "~55 min",
+            tip: "No overhead pressing today — protect the shoulder. Everything stays at or below chin level.",
+            sections: [
+              {
+                title: "WARMUP — 8 MIN",
+                type: "checklist",
+                items: [
+                  { id: "w1", name: "Band pull-aparts", note: "3 x 15, palms up and palms down", sets: 0 },
+                  { id: "w2", name: "Shoulder CARs", note: "5 slow circles each arm — full range of motion", sets: 0 },
+                  { id: "w3", name: "Cat-cow", note: "10 reps, slow breath", sets: 0 },
+                  { id: "w4", name: "Wall slides", note: "10 reps — elbows and wrists stay on wall", sets: 0 },
+                ]
+              },
+              {
+                title: "MAIN WORK",
+                type: "lifts",
+                items: [
+                  { id: "m1", name: "Chest Supported DB Row", note: "Chest on incline bench, pull to hip, pause at top", sets: 4, reps: "10–12" },
+                  { id: "m2", name: "Lat Pulldown", note: "Pull to upper chest — not behind neck", sets: 4, reps: "10–12" },
+                  { id: "m3", name: "Face Pulls", note: "Cable at eye level, pull to ears — key for rotator cuff health", sets: 4, reps: "15–20" },
+                  { id: "m4", name: "Seated Cable Row", note: "Sit tall, squeeze shoulder blades together", sets: 3, reps: "12" },
+                  { id: "m5", name: "DB Lateral Raises", note: "Only to 90 degrees — no higher. Slight forward lean", sets: 3, reps: "12–15" },
+                  { id: "m6", name: "KB Turkish Get-Up", note: "Slow — this is skill work not cardio. 2–3 each side", sets: 3, reps: "2–3 each" },
+                ]
+              },
+              {
+                title: "BICEPS & GRIP",
+                type: "lifts",
+                items: [
+                  { id: "b1", name: "DB Hammer Curl", note: "Neutral grip, no swinging", sets: 3, reps: "12" },
+                  { id: "b2", name: "KB Bottom-Up Hold", note: "Balance KB upside down — shoulder stability work", sets: 3, reps: "20–30 sec" },
+                ]
+              }
             ]
           },
           {
-            title: "CARRIES & CORE — 10 MIN",
-            type: "checklist",
-            items: [
-              { id: "c1", name: "Farmer Carry", note: "2 KBs, walk 30–40m, stand tall, brace core" , sets: 0 },
-              { id: "c2", name: "Suitcase Carry", note: "1 KB at side, resist leaning — 3 sets each side", sets: 0 },
-              { id: "c3", name: "Plank", note: "3 x 30–45 sec, squeeze everything", sets: 0 },
+            id: "a2", label: "WED", name: "Legs", sub: "Hinge & Single Leg",
+            tag: "Hip Hinge · Balance · Core", duration: "~55 min",
+            tip: "Single leg work is the best investment for knee and hip health long term. Take your time with the balance — it's the point.",
+            sections: [
+              {
+                title: "WARMUP — 8 MIN",
+                type: "checklist",
+                items: [
+                  { id: "w1", name: "Leg swings", note: "10 forward/back, 10 side to side each leg", sets: 0 },
+                  { id: "w2", name: "Hip 90-90 stretch", note: "60 sec each side", sets: 0 },
+                  { id: "w3", name: "Glute bridge", note: "2 x 15 with 2 sec hold at top", sets: 0 },
+                  { id: "w4", name: "Lateral band walk", note: "2 x 15 each direction if band available", sets: 0 },
+                ]
+              },
+              {
+                title: "MAIN WORK",
+                type: "lifts",
+                items: [
+                  { id: "m1", name: "KB Goblet Squat", note: "Controlled — sit into hips, not forward on knees", sets: 4, reps: "12" },
+                  { id: "m2", name: "Single Leg KB Deadlift", note: "Hinge at hip, slight knee bend, core tight — use wall for balance if needed", sets: 3, reps: "8–10 each" },
+                  { id: "m3", name: "Reverse Lunge with KB", note: "Step back — easier on knees than forward lunge", sets: 3, reps: "10 each" },
+                  { id: "m4", name: "KB Sumo Deadlift", note: "Wide stance, toes out 45°, sit back into hips", sets: 3, reps: "12" },
+                  { id: "m5", name: "Step-Ups with KB", note: "Drive through heel, fully extend top leg", sets: 3, reps: "10 each" },
+                  { id: "m6", name: "Calf Raises", note: "Slow and controlled, full range", sets: 3, reps: "15–20" },
+                ]
+              },
+              {
+                title: "CORE — 10 MIN",
+                type: "checklist",
+                items: [
+                  { id: "c1", name: "Dead bug", note: "3 x 8 each side — lower back stays flat on floor", sets: 0 },
+                  { id: "c2", name: "Bird dog", note: "3 x 8 each side — hold 2 sec at extension", sets: 0 },
+                  { id: "c3", name: "Side plank", note: "2 x 30 sec each side", sets: 0 },
+                ]
+              }
             ]
-          }
+          },
+          {
+            id: "a3", label: "THU", name: "Full Body", sub: "Flow & Carries",
+            tag: "KB Circuit · Stability · Power", duration: "~55 min",
+            tip: "This is your conditioning day. Keep rest shorter between exercises but full rest between rounds.",
+            sections: [
+              {
+                title: "WARMUP — 8 MIN",
+                type: "checklist",
+                items: [
+                  { id: "w1", name: "Jump rope or march in place", note: "3 min easy", sets: 0 },
+                  { id: "w2", name: "World's greatest stretch", note: "5 each side", sets: 0 },
+                  { id: "w3", name: "KB halo", note: "5 each direction — shoulder warm-up", sets: 0 },
+                ]
+              },
+              {
+                title: "KB CIRCUIT — 4 ROUNDS",
+                type: "lifts",
+                items: [
+                  { id: "m1", name: "KB Swing", note: "Explosive hip snap — rest 60 sec between rounds", sets: 4, reps: "15" },
+                  { id: "m2", name: "Goblet Squat", note: "Slow descent — 3 sec down", sets: 4, reps: "10" },
+                  { id: "m3", name: "Single Arm KB Row", note: "Alternate arms each round", sets: 4, reps: "8 each" },
+                  { id: "m4", name: "KB Deadlift", note: "Reset between every rep", sets: 4, reps: "10" },
+                  { id: "m5", name: "Push-Ups", note: "Add a 2 sec pause at bottom", sets: 4, reps: "10" },
+                ]
+              },
+              {
+                title: "CARRIES & FINISHER",
+                type: "checklist",
+                items: [
+                  { id: "c1", name: "Overhead KB Carry (non-surgery arm)", note: "3 x 30m — keep ribs down, core braced", sets: 0 },
+                  { id: "c2", name: "Farmer Carry", note: "3 x 40m heavy as possible with good posture", sets: 0 },
+                  { id: "c3", name: "Plank to downdog", note: "2 x 8 — flow between positions", sets: 0 },
+                ]
+              }
+            ]
+          },
+          {
+            id: "a4", label: "FRI", name: "Recovery", sub: "Mobility & Movement",
+            tag: "Low Intensity · Stretch · Walk", duration: "~45 min",
+            tip: "This is not a skip day — active recovery is where adaptation happens. Move well, not hard.",
+            sections: [
+              {
+                title: "LIGHT MOVEMENT — 15 MIN",
+                type: "checklist",
+                items: [
+                  { id: "w1", name: "Light KB swings", note: "3 x 10 — focus only on form, very light weight", sets: 0 },
+                  { id: "w2", name: "Bodyweight squat", note: "2 x 15 slow, sit at bottom for 2 sec", sets: 0 },
+                  { id: "w3", name: "KB deadlift light", note: "2 x 10 — groove the pattern", sets: 0 },
+                ]
+              },
+              {
+                title: "MOBILITY — 20 MIN",
+                type: "checklist",
+                items: [
+                  { id: "m1", name: "Hip flexor stretch", note: "90 sec each side — lunge position", sets: 0 },
+                  { id: "m2", name: "Hamstring stretch", note: "90 sec each side", sets: 0 },
+                  { id: "m3", name: "Thoracic rotation", note: "10 each side on all fours", sets: 0 },
+                  { id: "m4", name: "Shoulder cross-body stretch", note: "60 sec each — gentle only on surgery side", sets: 0 },
+                  { id: "m5", name: "90-90 hip stretch", note: "90 sec each side", sets: 0 },
+                  { id: "m6", name: "Cat-cow", note: "10 slow reps with deep breath", sets: 0 },
+                ]
+              },
+              {
+                title: "CARDIO",
+                type: "checklist",
+                items: [
+                  { id: "ca1", name: "Brisk walk — 20–25 min", note: "Outside if possible. This is the most underrated thing you can do", sets: 0 },
+                ]
+              }
+            ]
+          },
         ]
       },
-      {
-        id: "a1", label: "TUE", name: "Upper", sub: "Pull Focus + Shoulder Health",
-        tag: "Rows · Face Pulls · Get-Up", duration: "~55 min",
-        tip: "No overhead pressing today — protect the shoulder. Everything stays at or below chin level.",
-        sections: [
-          {
-            title: "WARMUP — 8 MIN",
-            type: "checklist",
-            items: [
-              { id: "w1", name: "Band pull-aparts", note: "3 x 15, palms up and palms down", sets: 0 },
-              { id: "w2", name: "Shoulder CARs", note: "5 slow circles each arm — full range of motion", sets: 0 },
-              { id: "w3", name: "Cat-cow", note: "10 reps, slow breath", sets: 0 },
-              { id: "w4", name: "Wall slides", note: "10 reps — elbows and wrists stay on wall", sets: 0 },
-            ]
-          },
-          {
-            title: "MAIN WORK",
-            type: "lifts",
-            items: [
-              { id: "m1", name: "Chest Supported DB Row", note: "Chest on incline bench, pull to hip, pause at top", sets: 4, reps: "10–12" },
-              { id: "m2", name: "Lat Pulldown", note: "Pull to upper chest — not behind neck", sets: 4, reps: "10–12" },
-              { id: "m3", name: "Face Pulls", note: "Cable at eye level, pull to ears — key for rotator cuff health", sets: 4, reps: "15–20" },
-              { id: "m4", name: "Seated Cable Row", note: "Sit tall, squeeze shoulder blades together", sets: 3, reps: "12" },
-              { id: "m5", name: "DB Lateral Raises", note: "Only to 90 degrees — no higher. Slight forward lean", sets: 3, reps: "12–15" },
-              { id: "m6", name: "KB Turkish Get-Up", note: "Slow — this is skill work not cardio. 2–3 each side", sets: 3, reps: "2–3 each" },
-            ]
-          },
-          {
-            title: "BICEPS & GRIP",
-            type: "lifts",
-            items: [
-              { id: "b1", name: "DB Hammer Curl", note: "Neutral grip, no swinging", sets: 3, reps: "12" },
-              { id: "b2", name: "KB Bottom-Up Hold", note: "Balance KB upside down — shoulder stability work", sets: 3, reps: "20–30 sec" },
-            ]
-          }
-        ]
-      },
-      {
-        id: "a2", label: "WED", name: "Legs", sub: "Hinge & Single Leg",
-        tag: "Hip Hinge · Balance · Core", duration: "~55 min",
-        tip: "Single leg work is the best investment for knee and hip health long term. Take your time with the balance — it's the point.",
-        sections: [
-          {
-            title: "WARMUP — 8 MIN",
-            type: "checklist",
-            items: [
-              { id: "w1", name: "Leg swings", note: "10 forward/back, 10 side to side each leg", sets: 0 },
-              { id: "w2", name: "Hip 90-90 stretch", note: "60 sec each side", sets: 0 },
-              { id: "w3", name: "Glute bridge", note: "2 x 15 with 2 sec hold at top", sets: 0 },
-              { id: "w4", name: "Lateral band walk", note: "2 x 15 each direction if band available", sets: 0 },
-            ]
-          },
-          {
-            title: "MAIN WORK",
-            type: "lifts",
-            items: [
-              { id: "m1", name: "KB Goblet Squat", note: "Controlled — sit into hips, not forward on knees", sets: 4, reps: "12" },
-              { id: "m2", name: "Single Leg KB Deadlift", note: "Hinge at hip, slight knee bend, core tight — use wall for balance if needed", sets: 3, reps: "8–10 each" },
-              { id: "m3", name: "Reverse Lunge with KB", note: "Step back — easier on knees than forward lunge", sets: 3, reps: "10 each" },
-              { id: "m4", name: "KB Sumo Deadlift", note: "Wide stance, toes out 45°, sit back into hips", sets: 3, reps: "12" },
-              { id: "m5", name: "Step-Ups with KB", note: "Drive through heel, fully extend top leg", sets: 3, reps: "10 each" },
-              { id: "m6", name: "Calf Raises", note: "Slow and controlled, full range", sets: 3, reps: "15–20" },
-            ]
-          },
-          {
-            title: "CORE — 10 MIN",
-            type: "checklist",
-            items: [
-              { id: "c1", name: "Dead bug", note: "3 x 8 each side — lower back stays flat on floor", sets: 0 },
-              { id: "c2", name: "Bird dog", note: "3 x 8 each side — hold 2 sec at extension", sets: 0 },
-              { id: "c3", name: "Side plank", note: "2 x 30 sec each side", sets: 0 },
-            ]
-          }
-        ]
-      },
-      {
-        id: "a3", label: "THU", name: "Full Body", sub: "Flow & Carries",
-        tag: "KB Circuit · Stability · Power", duration: "~55 min",
-        tip: "This is your conditioning day. Keep rest shorter between exercises but full rest between rounds.",
-        sections: [
-          {
-            title: "WARMUP — 8 MIN",
-            type: "checklist",
-            items: [
-              { id: "w1", name: "Jump rope or march in place", note: "3 min easy", sets: 0 },
-              { id: "w2", name: "World's greatest stretch", note: "5 each side", sets: 0 },
-              { id: "w3", name: "KB halo", note: "5 each direction — shoulder warm-up", sets: 0 },
-            ]
-          },
-          {
-            title: "KB CIRCUIT — 4 ROUNDS",
-            type: "lifts",
-            items: [
-              { id: "m1", name: "KB Swing", note: "Explosive hip snap — rest 60 sec between rounds", sets: 4, reps: "15" },
-              { id: "m2", name: "Goblet Squat", note: "Slow descent — 3 sec down", sets: 4, reps: "10" },
-              { id: "m3", name: "Single Arm KB Row", note: "Alternate arms each round", sets: 4, reps: "8 each" },
-              { id: "m4", name: "KB Deadlift", note: "Reset between every rep", sets: 4, reps: "10" },
-              { id: "m5", name: "Push-Ups", note: "Add a 2 sec pause at bottom", sets: 4, reps: "10" },
-            ]
-          },
-          {
-            title: "CARRIES & FINISHER",
-            type: "checklist",
-            items: [
-              { id: "c1", name: "Overhead KB Carry (non-surgery arm)", note: "3 x 30m — keep ribs down, core braced", sets: 0 },
-              { id: "c2", name: "Farmer Carry", note: "3 x 40m heavy as possible with good posture", sets: 0 },
-              { id: "c3", name: "Plank to downdog", note: "2 x 8 — flow between positions", sets: 0 },
-            ]
-          }
-        ]
-      },
-      {
-        id: "a4", label: "FRI", name: "Recovery", sub: "Mobility & Movement",
-        tag: "Low Intensity · Stretch · Walk", duration: "~45 min",
-        tip: "This is not a skip day — active recovery is where adaptation happens. Move well, not hard.",
-        sections: [
-          {
-            title: "LIGHT MOVEMENT — 15 MIN",
-            type: "checklist",
-            items: [
-              { id: "w1", name: "Light KB swings", note: "3 x 10 — focus only on form, very light weight", sets: 0 },
-              { id: "w2", name: "Bodyweight squat", note: "2 x 15 slow, sit at bottom for 2 sec", sets: 0 },
-              { id: "w3", name: "KB deadlift light", note: "2 x 10 — groove the pattern", sets: 0 },
-            ]
-          },
-          {
-            title: "MOBILITY — 20 MIN",
-            type: "checklist",
-            items: [
-              { id: "m1", name: "Hip flexor stretch", note: "90 sec each side — lunge position", sets: 0 },
-              { id: "m2", name: "Hamstring stretch", note: "90 sec each side", sets: 0 },
-              { id: "m3", name: "Thoracic rotation", note: "10 each side on all fours", sets: 0 },
-              { id: "m4", name: "Shoulder cross-body stretch", note: "60 sec each — gentle only on surgery side", sets: 0 },
-              { id: "m5", name: "90-90 hip stretch", note: "90 sec each side", sets: 0 },
-              { id: "m6", name: "Cat-cow", note: "10 slow reps with deep breath", sets: 0 },
-            ]
-          },
-          {
-            title: "CARDIO",
-            type: "checklist",
-            items: [
-              { id: "ca1", name: "Brisk walk — 20–25 min", note: "Outside if possible. This is the most underrated thing you can do", sets: 0 },
-            ]
-          }
-        ]
-      },
-    ]
-  },
 
-  // ── WEEK B: STRENGTH ─────────────────────────────────────────────────────
-  {
-    label: "B", name: "Strength", color: "#059669",
-    days: [
+      // ── WEEK B: STRENGTH ─────────────────────────────────────────────────────
       {
-        id: "b0", label: "MON", name: "Push / Pull", sub: "Upper Body Strength",
-        tag: "Chest · Back · Arms", duration: "~55 min",
-        tip: "No overhead pressing — chest and back take priority. Control the weight on the way down on every rep.",
-        sections: [
+        label: "B", name: "Strength", color: "#059669",
+        days: [
           {
-            title: "WARMUP — 8 MIN",
-            type: "checklist",
-            items: [
-              { id: "w1", name: "Band pull-aparts", note: "3 x 15", sets: 0 },
-              { id: "w2", name: "Wall slides", note: "2 x 10", sets: 0 },
-              { id: "w3", name: "Push-up to downdog", note: "2 x 8", sets: 0 },
+            id: "b0", label: "MON", name: "Push / Pull", sub: "Upper Body Strength",
+            tag: "Chest · Back · Arms", duration: "~55 min",
+            tip: "No overhead pressing — chest and back take priority. Control the weight on the way down on every rep.",
+            sections: [
+              {
+                title: "WARMUP — 8 MIN",
+                type: "checklist",
+                items: [
+                  { id: "w1", name: "Band pull-aparts", note: "3 x 15", sets: 0 },
+                  { id: "w2", name: "Wall slides", note: "2 x 10", sets: 0 },
+                  { id: "w3", name: "Push-up to downdog", note: "2 x 8", sets: 0 },
+                ]
+              },
+              {
+                title: "PUSH",
+                type: "lifts",
+                items: [
+                  { id: "m1", name: "DB Bench Press", note: "Controlled descent, 2 sec down — no bouncing off chest", sets: 4, reps: "8–10" },
+                  { id: "m2", name: "Incline DB Press", note: "30–45 degree incline, upper chest emphasis", sets: 3, reps: "10–12" },
+                  { id: "m3", name: "Cable Chest Fly", note: "Slight bend in elbow, feel the stretch at the bottom", sets: 3, reps: "12–15" },
+                  { id: "m4", name: "DB Lateral Raises", note: "To 90 degrees only — no higher, protect the shoulder", sets: 3, reps: "12–15" },
+                ]
+              },
+              {
+                title: "PULL",
+                type: "lifts",
+                items: [
+                  { id: "p1", name: "Lat Pulldown", note: "Pull to upper chest, squeeze at bottom", sets: 4, reps: "10–12" },
+                  { id: "p2", name: "Seated Cable Row", note: "Sit tall, elbows back, squeeze for 1 sec", sets: 3, reps: "12" },
+                  { id: "p3", name: "Face Pulls", note: "Every session — most important exercise for rotator cuff health", sets: 3, reps: "20" },
+                  { id: "p4", name: "DB Hammer Curl", note: "Slow, no swinging", sets: 3, reps: "12" },
+                  { id: "p5", name: "Tricep Pushdown", note: "Cable or band, elbows pinned to sides", sets: 3, reps: "12–15" },
+                ]
+              }
             ]
           },
           {
-            title: "PUSH",
-            type: "lifts",
-            items: [
-              { id: "m1", name: "DB Bench Press", note: "Controlled descent, 2 sec down — no bouncing off chest", sets: 4, reps: "8–10" },
-              { id: "m2", name: "Incline DB Press", note: "30–45 degree incline, upper chest emphasis", sets: 3, reps: "10–12" },
-              { id: "m3", name: "Cable Chest Fly", note: "Slight bend in elbow, feel the stretch at the bottom", sets: 3, reps: "12–15" },
-              { id: "m4", name: "DB Lateral Raises", note: "To 90 degrees only — no higher, protect the shoulder", sets: 3, reps: "12–15" },
+            id: "b1", label: "TUE", name: "Legs", sub: "Lower Body Strength",
+            tag: "Quad · Hamstring · Calf", duration: "~55 min",
+            tip: "Leg press over barbell squat — same stimulus, less spinal load. Don't go to failure on leg press, leave 2 reps in the tank.",
+            sections: [
+              {
+                title: "WARMUP — 8 MIN",
+                type: "checklist",
+                items: [
+                  { id: "w1", name: "Leg swings", note: "10 forward/back, 10 side to side each", sets: 0 },
+                  { id: "w2", name: "Glute bridges", note: "2 x 15 with hold", sets: 0 },
+                  { id: "w3", name: "Bodyweight squat", note: "2 x 15 slow", sets: 0 },
+                  { id: "w4", name: "Hip flexor stretch", note: "60 sec each side", sets: 0 },
+                ]
+              },
+              {
+                title: "MAIN WORK",
+                type: "lifts",
+                items: [
+                  { id: "m1", name: "Leg Press", note: "Feet shoulder width, don't lock knees at top, full range", sets: 4, reps: "10–12" },
+                  { id: "m2", name: "Romanian Deadlift", note: "Slight knee bend, push hips back — feel hamstring stretch", sets: 4, reps: "10–12" },
+                  { id: "m3", name: "Step-Ups", note: "Drive through heel, use a 12–16 inch box", sets: 3, reps: "10 each" },
+                  { id: "m4", name: "Leg Curl", note: "Slow on the way back down — 3 sec negative", sets: 3, reps: "12" },
+                  { id: "m5", name: "Leg Extension", note: "Light to moderate — don't load heavy with rotator history", sets: 3, reps: "15" },
+                  { id: "m6", name: "Standing Calf Raise", note: "Full stretch at bottom, pause at top", sets: 4, reps: "15–20" },
+                ]
+              },
+              {
+                title: "CORE",
+                type: "checklist",
+                items: [
+                  { id: "c1", name: "Cable crunch", note: "3 x 15 — round spine over, squeeze abs", sets: 0 },
+                  { id: "c2", name: "Plank", note: "3 x 40 sec", sets: 0 },
+                  { id: "c3", name: "Side plank", note: "2 x 30 sec each", sets: 0 },
+                ]
+              }
             ]
           },
           {
-            title: "PULL",
-            type: "lifts",
-            items: [
-              { id: "p1", name: "Lat Pulldown", note: "Pull to upper chest, squeeze at bottom", sets: 4, reps: "10–12" },
-              { id: "p2", name: "Seated Cable Row", note: "Sit tall, elbows back, squeeze for 1 sec", sets: 3, reps: "12" },
-              { id: "p3", name: "Face Pulls", note: "Every session — most important exercise for rotator cuff health", sets: 3, reps: "20" },
-              { id: "p4", name: "DB Hammer Curl", note: "Slow, no swinging", sets: 3, reps: "12" },
-              { id: "p5", name: "Tricep Pushdown", note: "Cable or band, elbows pinned to sides", sets: 3, reps: "12–15" },
+            id: "b2", label: "WED", name: "Full Body", sub: "Compound + KB",
+            tag: "Mixed · Power + Strength", duration: "~55 min",
+            tip: "Bridge between functional and strength. Move well and move heavy.",
+            sections: [
+              {
+                title: "WARMUP — 8 MIN",
+                type: "checklist",
+                items: [
+                  { id: "w1", name: "KB halo", note: "5 each direction", sets: 0 },
+                  { id: "w2", name: "Hip circles", note: "10 each direction", sets: 0 },
+                  { id: "w3", name: "Thoracic rotation", note: "10 each side", sets: 0 },
+                ]
+              },
+              {
+                title: "MAIN WORK",
+                type: "lifts",
+                items: [
+                  { id: "m1", name: "KB Swing", note: "Power focus — as explosive as possible", sets: 4, reps: "12" },
+                  { id: "m2", name: "DB Row", note: "Heavy — brace against bench, pull to hip", sets: 4, reps: "10 each" },
+                  { id: "m3", name: "Goblet Squat", note: "Add a 3 sec pause at the bottom", sets: 4, reps: "10" },
+                  { id: "m4", name: "DB Bench Press", note: "Controlled and strong", sets: 3, reps: "10" },
+                  { id: "m5", name: "Face Pulls", note: "Non-negotiable for shoulder health", sets: 3, reps: "20" },
+                  { id: "m6", name: "Farmer Carry", note: "3 x 40m — go heavy", sets: 3, reps: "40m" },
+                ]
+              },
+              {
+                title: "CORE & FINISHER",
+                type: "checklist",
+                items: [
+                  { id: "c1", name: "Dead bug", note: "3 x 8 each side", sets: 0 },
+                  { id: "c2", name: "Bird dog", note: "3 x 8 each side", sets: 0 },
+                  { id: "c3", name: "KB swing finisher", note: "1 x 20 — leave it all there", sets: 0 },
+                ]
+              }
             ]
-          }
+          },
+          {
+            id: "b3", label: "THU", name: "Upper", sub: "Back & Shoulder Health",
+            tag: "Row Heavy · Rear Delts · Biceps", duration: "~55 min",
+            tip: "Second upper day focuses on pulling volume and rear delt work — the muscles that keep the shoulder healthy.",
+            sections: [
+              {
+                title: "WARMUP — 8 MIN",
+                type: "checklist",
+                items: [
+                  { id: "w1", name: "Shoulder CARs", note: "5 each arm — slow full circles", sets: 0 },
+                  { id: "w2", name: "Band pull-aparts", note: "3 x 15", sets: 0 },
+                  { id: "w3", name: "Cat-cow", note: "10 reps with breath", sets: 0 },
+                ]
+              },
+              {
+                title: "MAIN WORK",
+                type: "lifts",
+                items: [
+                  { id: "m1", name: "Chest Supported Row", note: "Heaviest pull of the week — chest on pad, strict form", sets: 4, reps: "8–10" },
+                  { id: "m2", name: "Lat Pulldown", note: "Wide grip, pull to upper chest", sets: 4, reps: "10–12" },
+                  { id: "m3", name: "Rear Delt Fly", note: "Light weight — hinge forward, arms wide, thumbs back", sets: 4, reps: "15–20" },
+                  { id: "m4", name: "Face Pulls", note: "Rope at eye level, pull to ears", sets: 4, reps: "20" },
+                  { id: "m5", name: "Cable or DB Lateral Raise", note: "To 90 degrees only", sets: 3, reps: "15" },
+                ]
+              },
+              {
+                title: "ARMS",
+                type: "lifts",
+                items: [
+                  { id: "a1", name: "DB Bicep Curl", note: "Full range — all the way down", sets: 3, reps: "12" },
+                  { id: "a2", name: "Hammer Curl", note: "Neutral grip", sets: 3, reps: "12" },
+                  { id: "a3", name: "Tricep Pushdown", note: "Rope or bar", sets: 3, reps: "15" },
+                ]
+              }
+            ]
+          },
+          {
+            id: "b4", label: "FRI", name: "Recovery", sub: "Mobility & Movement",
+            tag: "Low Intensity · Stretch · Walk", duration: "~45 min",
+            tip: "Same as Week A Friday — recovery is part of the program, not optional.",
+            sections: [
+              {
+                title: "LIGHT MOVEMENT — 15 MIN",
+                type: "checklist",
+                items: [
+                  { id: "w1", name: "Light KB swings", note: "3 x 10 — form focus only", sets: 0 },
+                  { id: "w2", name: "Bodyweight squat", note: "2 x 15 slow", sets: 0 },
+                  { id: "w3", name: "Push-up", note: "2 x 10 easy", sets: 0 },
+                ]
+              },
+              {
+                title: "MOBILITY — 20 MIN",
+                type: "checklist",
+                items: [
+                  { id: "m1", name: "Hip flexor stretch", note: "90 sec each side", sets: 0 },
+                  { id: "m2", name: "Hamstring stretch", note: "90 sec each side", sets: 0 },
+                  { id: "m3", name: "Thoracic rotation", note: "10 each side", sets: 0 },
+                  { id: "m4", name: "Shoulder cross-body stretch", note: "60 sec each — very gentle on surgery side", sets: 0 },
+                  { id: "m5", name: "Pigeon pose or 90-90", note: "90 sec each side", sets: 0 },
+                  { id: "m6", name: "Child's pose", note: "60 sec — decompress the spine", sets: 0 },
+                ]
+              },
+              {
+                title: "CARDIO",
+                type: "checklist",
+                items: [
+                  { id: "ca1", name: "Brisk walk — 20–25 min", note: "Outside if possible", sets: 0 },
+                ]
+              }
+            ]
+          },
         ]
-      },
-      {
-        id: "b1", label: "TUE", name: "Legs", sub: "Lower Body Strength",
-        tag: "Quad · Hamstring · Calf", duration: "~55 min",
-        tip: "Leg press over barbell squat — same stimulus, less spinal load. Don't go to failure on leg press, leave 2 reps in the tank.",
-        sections: [
-          {
-            title: "WARMUP — 8 MIN",
-            type: "checklist",
-            items: [
-              { id: "w1", name: "Leg swings", note: "10 forward/back, 10 side to side each", sets: 0 },
-              { id: "w2", name: "Glute bridges", note: "2 x 15 with hold", sets: 0 },
-              { id: "w3", name: "Bodyweight squat", note: "2 x 15 slow", sets: 0 },
-              { id: "w4", name: "Hip flexor stretch", note: "60 sec each side", sets: 0 },
-            ]
-          },
-          {
-            title: "MAIN WORK",
-            type: "lifts",
-            items: [
-              { id: "m1", name: "Leg Press", note: "Feet shoulder width, don't lock knees at top, full range", sets: 4, reps: "10–12" },
-              { id: "m2", name: "Romanian Deadlift", note: "Slight knee bend, push hips back — feel hamstring stretch", sets: 4, reps: "10–12" },
-              { id: "m3", name: "Step-Ups", note: "Drive through heel, use a 12–16 inch box", sets: 3, reps: "10 each" },
-              { id: "m4", name: "Leg Curl", note: "Slow on the way back down — 3 sec negative", sets: 3, reps: "12" },
-              { id: "m5", name: "Leg Extension", note: "Light to moderate — don't load heavy with rotator history", sets: 3, reps: "15" },
-              { id: "m6", name: "Standing Calf Raise", note: "Full stretch at bottom, pause at top", sets: 4, reps: "15–20" },
-            ]
-          },
-          {
-            title: "CORE",
-            type: "checklist",
-            items: [
-              { id: "c1", name: "Cable crunch", note: "3 x 15 — round spine over, squeeze abs", sets: 0 },
-              { id: "c2", name: "Plank", note: "3 x 40 sec", sets: 0 },
-              { id: "c3", name: "Side plank", note: "2 x 30 sec each", sets: 0 },
-            ]
-          }
-        ]
-      },
-      {
-        id: "b2", label: "WED", name: "Full Body", sub: "Compound + KB",
-        tag: "Mixed · Power + Strength", duration: "~55 min",
-        tip: "Bridge between functional and strength. Move well and move heavy.",
-        sections: [
-          {
-            title: "WARMUP — 8 MIN",
-            type: "checklist",
-            items: [
-              { id: "w1", name: "KB halo", note: "5 each direction", sets: 0 },
-              { id: "w2", name: "Hip circles", note: "10 each direction", sets: 0 },
-              { id: "w3", name: "Thoracic rotation", note: "10 each side", sets: 0 },
-            ]
-          },
-          {
-            title: "MAIN WORK",
-            type: "lifts",
-            items: [
-              { id: "m1", name: "KB Swing", note: "Power focus — as explosive as possible", sets: 4, reps: "12" },
-              { id: "m2", name: "DB Row", note: "Heavy — brace against bench, pull to hip", sets: 4, reps: "10 each" },
-              { id: "m3", name: "Goblet Squat", note: "Add a 3 sec pause at the bottom", sets: 4, reps: "10" },
-              { id: "m4", name: "DB Bench Press", note: "Controlled and strong", sets: 3, reps: "10" },
-              { id: "m5", name: "Face Pulls", note: "Non-negotiable for shoulder health", sets: 3, reps: "20" },
-              { id: "m6", name: "Farmer Carry", note: "3 x 40m — go heavy", sets: 3, reps: "40m" },
-            ]
-          },
-          {
-            title: "CORE & FINISHER",
-            type: "checklist",
-            items: [
-              { id: "c1", name: "Dead bug", note: "3 x 8 each side", sets: 0 },
-              { id: "c2", name: "Bird dog", note: "3 x 8 each side", sets: 0 },
-              { id: "c3", name: "KB swing finisher", note: "1 x 20 — leave it all there", sets: 0 },
-            ]
-          }
-        ]
-      },
-      {
-        id: "b3", label: "THU", name: "Upper", sub: "Back & Shoulder Health",
-        tag: "Row Heavy · Rear Delts · Biceps", duration: "~55 min",
-        tip: "Second upper day focuses on pulling volume and rear delt work — the muscles that keep the shoulder healthy.",
-        sections: [
-          {
-            title: "WARMUP — 8 MIN",
-            type: "checklist",
-            items: [
-              { id: "w1", name: "Shoulder CARs", note: "5 each arm — slow full circles", sets: 0 },
-              { id: "w2", name: "Band pull-aparts", note: "3 x 15", sets: 0 },
-              { id: "w3", name: "Cat-cow", note: "10 reps with breath", sets: 0 },
-            ]
-          },
-          {
-            title: "MAIN WORK",
-            type: "lifts",
-            items: [
-              { id: "m1", name: "Chest Supported Row", note: "Heaviest pull of the week — chest on pad, strict form", sets: 4, reps: "8–10" },
-              { id: "m2", name: "Lat Pulldown", note: "Wide grip, pull to upper chest", sets: 4, reps: "10–12" },
-              { id: "m3", name: "Rear Delt Fly", note: "Light weight — hinge forward, arms wide, thumbs back", sets: 4, reps: "15–20" },
-              { id: "m4", name: "Face Pulls", note: "Rope at eye level, pull to ears", sets: 4, reps: "20" },
-              { id: "m5", name: "Cable or DB Lateral Raise", note: "To 90 degrees only", sets: 3, reps: "15" },
-            ]
-          },
-          {
-            title: "ARMS",
-            type: "lifts",
-            items: [
-              { id: "a1", name: "DB Bicep Curl", note: "Full range — all the way down", sets: 3, reps: "12" },
-              { id: "a2", name: "Hammer Curl", note: "Neutral grip", sets: 3, reps: "12" },
-              { id: "a3", name: "Tricep Pushdown", note: "Rope or bar", sets: 3, reps: "15" },
-            ]
-          }
-        ]
-      },
-      {
-        id: "b4", label: "FRI", name: "Recovery", sub: "Mobility & Movement",
-        tag: "Low Intensity · Stretch · Walk", duration: "~45 min",
-        tip: "Same as Week A Friday — recovery is part of the program, not optional.",
-        sections: [
-          {
-            title: "LIGHT MOVEMENT — 15 MIN",
-            type: "checklist",
-            items: [
-              { id: "w1", name: "Light KB swings", note: "3 x 10 — form focus only", sets: 0 },
-              { id: "w2", name: "Bodyweight squat", note: "2 x 15 slow", sets: 0 },
-              { id: "w3", name: "Push-up", note: "2 x 10 easy", sets: 0 },
-            ]
-          },
-          {
-            title: "MOBILITY — 20 MIN",
-            type: "checklist",
-            items: [
-              { id: "m1", name: "Hip flexor stretch", note: "90 sec each side", sets: 0 },
-              { id: "m2", name: "Hamstring stretch", note: "90 sec each side", sets: 0 },
-              { id: "m3", name: "Thoracic rotation", note: "10 each side", sets: 0 },
-              { id: "m4", name: "Shoulder cross-body stretch", note: "60 sec each — very gentle on surgery side", sets: 0 },
-              { id: "m5", name: "Pigeon pose or 90-90", note: "90 sec each side", sets: 0 },
-              { id: "m6", name: "Child's pose", note: "60 sec — decompress the spine", sets: 0 },
-            ]
-          },
-          {
-            title: "CARDIO",
-            type: "checklist",
-            items: [
-              { id: "ca1", name: "Brisk walk — 20–25 min", note: "Outside if possible", sets: 0 },
-            ]
-          }
-        ]
-      },
-    ]
-  }
-];
-
-// ── STATE ─────────────────────────────────────────────────────────────────
-let activeWeek = 0;
-let activeDay  = (() => { const d = new Date().getDay(); return d>=1&&d<=5 ? d-1 : 0; })();
-let setsDone   = {};
-let itemCheck  = {};
-let weights    = {};
-
-// Timer
-let timerInterval  = null;
-let timerTotal     = 90;
-let timerRemaining = 90;
-let timerLiftName  = '';
-let timerActive    = false;
-const CIRC = 2 * Math.PI * 28;
-
-// ── HELPERS ───────────────────────────────────────────────────────────────
-const sk  = (w,d,id) => `${w}-${d}-${id}`;
-const getSets = (dayIdx, liftId) => setsDone[sk(activeWeek, dayIdx, liftId)] || 0;
-const getCheck = (dayIdx, itemId) => itemCheck[sk(activeWeek, dayIdx, itemId)] || false;
-
-function dayTotals(weekIdx, dayIdx) {
-  const day = WEEKS[weekIdx].days[dayIdx];
-  let total = 0, done = 0;
-  day.sections.forEach(sec => {
-    sec.items.forEach(item => {
-      if (sec.type === 'lifts') {
-        total += item.sets;
-        done  += (setsDone[sk(weekIdx, dayIdx, item.id)] || 0);
-      } else {
-        total += 1;
-        done  += (itemCheck[sk(weekIdx, dayIdx, item.id)] ? 1 : 0);
       }
-    });
-  });
-  return {total, done};
-}
+    ];
 
-function checkSVG(color) {
-  return `<svg width="11" height="11" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="${color||'#000'}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-}
-function fmtTime(s) { return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`; }
+    // ── STATE ─────────────────────────────────────────────────────────────────
+    let activeWeek = 0;
+    let activeDay = (() => { const d = new Date().getDay(); return d >= 1 && d <= 5 ? d - 1 : 0; })();
+    let setsDone = {};
+    let itemCheck = {};
+    let weights = {};
 
-// ── TIMER ─────────────────────────────────────────────────────────────────
-function startTimer(liftName) {
-  timerLiftName = liftName;
-  timerRemaining = timerTotal;
-  timerActive = true;
-  clearInterval(timerInterval);
-  updateTimerUI();
-  document.getElementById('timer-panel').classList.add('visible');
-  timerInterval = setInterval(() => {
-    timerRemaining--;
-    if (timerRemaining <= 0) {
-      timerRemaining = 0;
-      clearInterval(timerInterval);
-      timerActive = false;
-      if (navigator.vibrate) navigator.vibrate([120,60,120]);
+    // Timer
+    let timerInterval = null;
+    let timerTotal = 90;
+    let timerRemaining = 90;
+    let timerLiftName = '';
+    let timerActive = false;
+    const CIRC = 2 * Math.PI * 28;
+
+    // ── HELPERS ───────────────────────────────────────────────────────────────
+    const sk = (w, d, id) => `${w}-${d}-${id}`;
+    const getSets = (dayIdx, liftId) => setsDone[sk(activeWeek, dayIdx, liftId)] || 0;
+    const getCheck = (dayIdx, itemId) => itemCheck[sk(activeWeek, dayIdx, itemId)] || false;
+
+    function dayTotals(weekIdx, dayIdx) {
+      const day = WEEKS[weekIdx].days[dayIdx];
+      let total = 0, done = 0;
+      day.sections.forEach(sec => {
+        sec.items.forEach(item => {
+          if (sec.type === 'lifts') {
+            total += item.sets;
+            done += (setsDone[sk(weekIdx, dayIdx, item.id)] || 0);
+          } else {
+            total += 1;
+            done += (itemCheck[sk(weekIdx, dayIdx, item.id)] ? 1 : 0);
+          }
+        });
+      });
+      return { total, done };
     }
-    updateTimerUI();
-  }, 1000);
-}
-function updateTimerUI() {
-  const pct = timerRemaining / timerTotal;
-  document.getElementById('timer-num').textContent = fmtTime(timerRemaining);
-  document.getElementById('timer-lift-name').textContent = timerLiftName || '—';
-  document.getElementById('timer-arc-fill').style.strokeDasharray  = CIRC;
-  document.getElementById('timer-arc-fill').style.strokeDashoffset = CIRC * (1 - pct);
-  document.getElementById('timer-track-fill').style.width = (pct * 100) + '%';
-  document.querySelectorAll('.timer-preset').forEach(b => b.classList.remove('active-preset'));
-  const map = {60:0, 90:1, 120:2};
-  if (map[timerTotal] !== undefined) document.querySelectorAll('.timer-preset')[map[timerTotal]]?.classList.add('active-preset');
-}
-function setTimer(s) { timerTotal = s; if (timerActive || timerRemaining===0) startTimer(timerLiftName); else { timerRemaining=s; updateTimerUI(); } }
-function dismissTimer() { clearInterval(timerInterval); timerActive=false; document.getElementById('timer-panel').classList.remove('visible'); }
 
-// ── ACTIONS ───────────────────────────────────────────────────────────────
-function switchWeek(w) {
-  activeWeek = w;
-  activeDay  = 0;
-  const color = WEEKS[w].color;
-  document.documentElement.style.setProperty('--c', color);
-  document.querySelectorAll('.week-btn').forEach((b,i) => b.classList.toggle('active', i===w));
-  dismissTimer();
-  render();
-}
+    function checkSVG(color) {
+      return `<svg width="11" height="11" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="${color || '#000'}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    }
+    function fmtTime(s) { return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; }
 
-function switchDay(d) { activeDay = d; dismissTimer(); render(); }
+    // ── TIMER ─────────────────────────────────────────────────────────────────
+    function startTimer(liftName) {
+      timerLiftName = liftName;
+      timerRemaining = timerTotal;
+      timerActive = true;
+      clearInterval(timerInterval);
+      updateTimerUI();
+      document.getElementById('timer-panel').classList.add('visible');
+      timerInterval = setInterval(() => {
+        timerRemaining--;
+        if (timerRemaining <= 0) {
+          timerRemaining = 0;
+          clearInterval(timerInterval);
+          timerActive = false;
+          if (navigator.vibrate) navigator.vibrate([120, 60, 120]);
+        }
+        updateTimerUI();
+      }, 1000);
+    }
+    function updateTimerUI() {
+      const pct = timerRemaining / timerTotal;
+      document.getElementById('timer-num').textContent = fmtTime(timerRemaining);
+      document.getElementById('timer-lift-name').textContent = timerLiftName || '—';
+      document.getElementById('timer-arc-fill').style.strokeDasharray = CIRC;
+      document.getElementById('timer-arc-fill').style.strokeDashoffset = CIRC * (1 - pct);
+      document.getElementById('timer-track-fill').style.width = (pct * 100) + '%';
+      document.querySelectorAll('.timer-preset').forEach(b => b.classList.remove('active-preset'));
+      const map = { 60: 0, 90: 1, 120: 2 };
+      if (map[timerTotal] !== undefined) document.querySelectorAll('.timer-preset')[map[timerTotal]]?.classList.add('active-preset');
+    }
+    function setTimer(s) { timerTotal = s; if (timerActive || timerRemaining === 0) startTimer(timerLiftName); else { timerRemaining = s; updateTimerUI(); } }
+    function dismissTimer() { clearInterval(timerInterval); timerActive = false; document.getElementById('timer-panel').classList.remove('visible'); }
 
-function tapSet(secIdx, liftId, maxSets) {
-  const day  = WEEKS[activeWeek].days[activeDay];
-  const lift = day.sections[secIdx].items.find(l => l.id === liftId);
-  const name = lift ? lift.name : '';
-  const k    = sk(activeWeek, activeDay, liftId);
-  const cur  = setsDone[k] || 0;
-  const next = cur >= maxSets ? 0 : cur + 1;
-  setsDone[k] = next;
-  if (next > 0 && next < maxSets) startTimer(name);
-  if (next === maxSets) dismissTimer();
-  render();
-}
+    // ── ACTIONS ───────────────────────────────────────────────────────────────
+    function switchWeek(w) {
+      activeWeek = w;
+      activeDay = 0;
+      const color = WEEKS[w].color;
+      document.documentElement.style.setProperty('--c', color);
+      document.querySelectorAll('.week-btn').forEach((b, i) => b.classList.toggle('active', i === w));
+      dismissTimer();
+      render();
+    }
 
-function toggleCheck(itemId) {
-  const k = sk(activeWeek, activeDay, itemId);
-  itemCheck[k] = !itemCheck[k];
-  render();
-}
+    function switchDay(d) { activeDay = d; dismissTimer(); render(); }
 
-function saveWeight(liftId, val) { weights[sk(activeWeek, activeDay, liftId)] = val; }
+    function tapSet(secIdx, liftId, maxSets) {
+      const day = WEEKS[activeWeek].days[activeDay];
+      const lift = day.sections[secIdx].items.find(l => l.id === liftId);
+      const name = lift ? lift.name : '';
+      const k = sk(activeWeek, activeDay, liftId);
+      const cur = setsDone[k] || 0;
+      const next = cur >= maxSets ? 0 : cur + 1;
+      setsDone[k] = next;
+      if (next > 0 && next < maxSets) startTimer(name);
+      if (next === maxSets) dismissTimer();
+      render();
+    }
 
-function resetDay() {
-  const day = WEEKS[activeWeek].days[activeDay];
-  day.sections.forEach(sec => {
-    sec.items.forEach(item => {
-      delete setsDone[sk(activeWeek, activeDay, item.id)];
-      delete itemCheck[sk(activeWeek, activeDay, item.id)];
-    });
-  });
-  dismissTimer();
-  render();
-}
+    function toggleCheck(itemId) {
+      const k = sk(activeWeek, activeDay, itemId);
+      itemCheck[k] = !itemCheck[k];
+      render();
+    }
 
-// ── RENDER ────────────────────────────────────────────────────────────────
-function render() { renderTabs(); renderContent(); }
+    function saveWeight(liftId, val) { weights[sk(activeWeek, activeDay, liftId)] = val; }
 
-function renderTabs() {
-  const week = WEEKS[activeWeek];
-  document.getElementById('tabs').innerHTML = week.days.map((d, i) => {
-    const {total, done} = dayTotals(activeWeek, i);
-    const pct = total > 0 ? done/total : 0;
-    const isA = i === activeDay;
-    let pip = 'transparent';
-    if (pct > 0) pip = pct===1 ? week.color : isA ? week.color+'99' : week.color+'55';
-    else if (isA) pip = '#252525';
-    return `<button class="tab${isA?' active':''}" onclick="switchDay(${i})">${d.label}<div class="tab-pip" style="background:${pip}"></div></button>`;
-  }).join('');
-}
+    function resetDay() {
+      const day = WEEKS[activeWeek].days[activeDay];
+      day.sections.forEach(sec => {
+        sec.items.forEach(item => {
+          delete setsDone[sk(activeWeek, activeDay, item.id)];
+          delete itemCheck[sk(activeWeek, activeDay, item.id)];
+        });
+      });
+      dismissTimer();
+      render();
+    }
 
-function renderContent() {
-  const week = WEEKS[activeWeek];
-  const day  = week.days[activeDay];
-  const {total, done} = dayTotals(activeWeek, activeDay);
-  const pct    = total > 0 ? (done/total)*100 : 0;
-  const allDone = total > 0 && done === total;
-  let html = '';
+    // ── RENDER ────────────────────────────────────────────────────────────────
+    function render() { renderTabs(); renderContent(); }
 
-  // Header
-  html += `<div class="day-hdr">
+    function renderTabs() {
+      const week = WEEKS[activeWeek];
+      document.getElementById('tabs').innerHTML = week.days.map((d, i) => {
+        const { total, done } = dayTotals(activeWeek, i);
+        const pct = total > 0 ? done / total : 0;
+        const isA = i === activeDay;
+        let pip = 'transparent';
+        if (pct > 0) pip = pct === 1 ? week.color : isA ? week.color + '99' : week.color + '55';
+        else if (isA) pip = '#252525';
+        return `<button class="tab${isA ? ' active' : ''}" onclick="switchDay(${i})">${d.label}<div class="tab-pip" style="background:${pip}"></div></button>`;
+      }).join('');
+    }
+
+    function renderContent() {
+      const week = WEEKS[activeWeek];
+      const day = week.days[activeDay];
+      const { total, done } = dayTotals(activeWeek, activeDay);
+      const pct = total > 0 ? (done / total) * 100 : 0;
+      const allDone = total > 0 && done === total;
+      let html = '';
+
+      // Header
+      html += `<div class="day-hdr">
     <div>
       <div class="day-title">${day.name.toUpperCase()}</div>
       <div class="day-subtitle">${day.sub}</div>
@@ -704,49 +1260,49 @@ function renderContent() {
     <button class="reset-btn" onclick="resetDay()">RESET</button>
   </div>`;
 
-  // Tip
-  html += `<div class="tip-box">${day.tip}</div>`;
+      // Tip
+      html += `<div class="tip-box">${day.tip}</div>`;
 
-  // Progress
-  html += `<div class="prog-wrap">
+      // Progress
+      html += `<div class="prog-wrap">
     <div class="prog-meta">
       <span class="prog-lbl">PROGRESS</span>
-      <span class="prog-num" style="color:${done>0?week.color:'#2E2E2E'}">${done} / ${total}</span>
+      <span class="prog-num" style="color:${done > 0 ? week.color : '#2E2E2E'}">${done} / ${total}</span>
     </div>
     <div class="prog-track"><div class="prog-fill" style="width:${pct}%;background:${week.color}"></div></div>
   </div>`;
 
-  // Done banner
-  if (allDone) {
-    html += `<div class="done-banner" style="background:${week.color}15;border:1px solid ${week.color}28">
+      // Done banner
+      if (allDone) {
+        html += `<div class="done-banner" style="background:${week.color}15;border:1px solid ${week.color}28">
       <h2>DAY COMPLETE</h2>
       <p>Good work. Recover well.</p>
     </div>`;
-  }
+      }
 
-  // Sections
-  day.sections.forEach((sec, secIdx) => {
-    html += `<div class="section-hdr"><div class="section-dot"></div><div class="slabel">${sec.title}</div></div>`;
+      // Sections
+      day.sections.forEach((sec, secIdx) => {
+        html += `<div class="section-hdr"><div class="section-dot"></div><div class="slabel">${sec.title}</div></div>`;
 
-    if (sec.type === 'lifts') {
-      sec.items.forEach(lift => {
-        const done    = getSets(activeDay, lift.id);
-        const complete = done === lift.sets;
-        const w       = weights[sk(activeWeek, activeDay, lift.id)] || '';
-        let bubbles = '';
-        for (let i = 0; i < lift.sets; i++) {
-          const isDone = i < done, isNext = i === done;
-          bubbles += `<button class="set-bubble${isDone?' done':isNext?' next':''}" onclick="tapSet(${secIdx},'${lift.id}',${lift.sets})">${isDone?'✓':i+1}</button>`;
-        }
-        const statCls = !complete && done > 0 ? ' going' : '';
-        bubbles += `<span class="sets-status${statCls}" style="${done>0&&!complete?`color:${week.color}`:''}">
+        if (sec.type === 'lifts') {
+          sec.items.forEach(lift => {
+            const done = getSets(activeDay, lift.id);
+            const complete = done === lift.sets;
+            const w = weights[sk(activeWeek, activeDay, lift.id)] || '';
+            let bubbles = '';
+            for (let i = 0; i < lift.sets; i++) {
+              const isDone = i < done, isNext = i === done;
+              bubbles += `<button class="set-bubble${isDone ? ' done' : isNext ? ' next' : ''}" onclick="tapSet(${secIdx},'${lift.id}',${lift.sets})">${isDone ? '✓' : i + 1}</button>`;
+            }
+            const statCls = !complete && done > 0 ? ' going' : '';
+            bubbles += `<span class="sets-status${statCls}" style="${done > 0 && !complete ? `color:${week.color}` : ''}">
           ${complete ? 'DONE' : `${done}/${lift.sets}`}
         </span>`;
-        html += `<div class="lift-card${complete?' complete':''}">
+            html += `<div class="lift-card${complete ? ' complete' : ''}">
           <div class="lift-top">
             <div>
               <div class="lift-name">${lift.name}</div>
-              ${lift.note?`<div class="lift-note">${lift.note}</div>`:''}
+              ${lift.note ? `<div class="lift-note">${lift.note}</div>` : ''}
             </div>
             <div class="reps-badge">${lift.reps}</div>
           </div>
@@ -757,30 +1313,31 @@ function renderContent() {
             <span class="weight-label">LBS</span>
           </div>
         </div>`;
-      });
-    } else {
-      // Checklist
-      sec.items.forEach(item => {
-        const checked = getCheck(activeDay, item.id);
-        html += `<div class="check-row" onclick="toggleCheck('${item.id}')">
-          <div class="check-circle${checked?' done':''}">${checked?checkSVG('#fff'):''}</div>
+          });
+        } else {
+          // Checklist
+          sec.items.forEach(item => {
+            const checked = getCheck(activeDay, item.id);
+            html += `<div class="check-row" onclick="toggleCheck('${item.id}')">
+          <div class="check-circle${checked ? ' done' : ''}">${checked ? checkSVG('#fff') : ''}</div>
           <div>
-            <div class="check-text${checked?' done':''}">${item.name}</div>
-            ${item.note?`<div class="check-sub">${item.note}</div>`:''}
+            <div class="check-text${checked ? ' done' : ''}">${item.name}</div>
+            ${item.note ? `<div class="check-sub">${item.note}</div>` : ''}
           </div>
         </div>`;
+          });
+        }
       });
+
+      document.getElementById('content').innerHTML = html;
     }
-  });
 
-  document.getElementById('content').innerHTML = html;
-}
-
-// ── INIT ──────────────────────────────────────────────────────────────────
-document.documentElement.style.setProperty('--c', WEEKS[0].color);
-document.getElementById('timer-arc-fill').style.strokeDasharray  = CIRC;
-document.getElementById('timer-arc-fill').style.strokeDashoffset = 0;
-render();
-</script>
+    // ── INIT ──────────────────────────────────────────────────────────────────
+    document.documentElement.style.setProperty('--c', WEEKS[0].color);
+    document.getElementById('timer-arc-fill').style.strokeDasharray = CIRC;
+    document.getElementById('timer-arc-fill').style.strokeDashoffset = 0;
+    render();
+  </script>
 </body>
+
 </html>
